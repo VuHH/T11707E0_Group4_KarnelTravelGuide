@@ -1,0 +1,97 @@
+﻿@model TravelGuide.RESORT
+
+@{
+    ViewBag.Title = "DeleteResort";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>DeleteResort</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>RESORT</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NAME_RESORT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NAME_RESORT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ID_CITY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ID_CITY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ADDRESS_RESORT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ADDRESS_RESORT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TEL_RESORT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TEL_RESORT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QUALITY_RESORT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QUALITY_RESORT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AVAILABLE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AVAILABLE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.INTRODUCE_RESORT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.INTRODUCE_RESORT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DES_RESORT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DES_RESORT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IMAGE_RESORT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IMAGE_RESORT)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Resort")
+        </div>
+    }
+</div>

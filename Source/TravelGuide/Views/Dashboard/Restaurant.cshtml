@@ -1,0 +1,113 @@
+﻿@using PagedList.Mvc;
+@model PagedList.PagedList<TravelGuide.RESTAURANT>
+
+@{
+    ViewBag.Title = "Restaurant";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<div class="card mb-3">
+    <div class="card-header">
+        <i class="fas fa-table"></i>
+        Restaurant
+    </div>
+    @using (Html.BeginForm("Restaurant", "Dashboard", FormMethod.Get))
+    {
+        <div class="card-body">
+            <div class="table-responsive">
+                <div id="imaginary_container">
+                    <div class="input-group stylish-input-group">
+                        <input type="text" name="searchString" value="@ViewBag.SearchString" class="form-control" placeholder="Search">
+                        <span class="input-group-addon">
+                            <button type="submit">
+                                <i class="fa fa-search"></i>
+                                @*<span class="glyphicon glyphicon-search"></span>*@
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                <br />
+                <a href="@Url.Action("CreateRestaurant")" class="btn btn-primary" role="button">Create</a>
+                <br />
+                <br />
+                <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Name</th>
+                            <th>Id City</th>
+                            <th>Address</th>
+                            <th>Telephone</th>
+                            <th>Quality</th>
+                            <th>Description</th>
+                            <th>Introduction</th>
+                            <th>Image</th>
+                            <th>Price</th>
+                            <th>IsDiscount</th>
+                            <th>Discount</th>
+                            <th>Available</th>
+                            <th>Edit/Delete</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach (var item in Model)
+                        {
+                        <tr>
+                            <td>@item.ID_RESTAURANT</td>
+                            <td>@item.NAME_RESTAURANT</td>
+                            <td>@item.ID_CITY</td>
+                            <td>@item.ADDRESS_RESTAURANT</td>
+                            <td>@item.TEL_RESTAURANT</td>
+                            <td>@item.QUALITY_RESTAURANT</td>
+                            <td>@item.DES_RESTAURANT</td>
+                            <td>@item.INTRODUCE_RESTAURANT</td>
+                            <td>@item.IMAGE_RESTAURANT</td>
+                            <td>@item.PRICE_HOTEL</td>
+                            <td>@item.ISDISCOUNT_RES</td>
+                            <td>@item.DISCOUNT_RES</td>
+                            <td>@item.AVAILABLE</td>
+                            <td>
+                                @Html.ActionLink("Edit", "EditRestaurant", new { id = item.ID_RESTAURANT }) |
+                                @Html.ActionLink("Delete", "DeleteRestaurant", new { id = item.ID_RESTAURANT })
+                            </td>
+                        </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    }
+    <div class="card-footer small text-muted">Updated yesterday at 11:59 PM</div>
+    <a style="text-align:center">Trang @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber)/@Model.PageCount</a>
+    <div class="MenuTrang">
+        @Html.PagedListPager(Model, page => Url.Action("RESTAURANT", new { page = page }))
+    </div>
+</div>
+<style>
+    .MenuTrang {
+        text-align: center;
+    }
+
+        .MenuTrang li {
+            display: inline;
+        }
+
+    #imaginary_container {
+        margin-top: 0%; /* Don't copy this */
+    }
+
+    .stylish-input-group .input-group-addon {
+        background: white !important;
+    }
+
+    .stylish-input-group .form-control {
+        border-right: 0;
+        box-shadow: 0 0 0;
+        border-color: #ccc;
+    }
+
+    .stylish-input-group button {
+        border: 0;
+        background: transparent;
+    }
+</style>

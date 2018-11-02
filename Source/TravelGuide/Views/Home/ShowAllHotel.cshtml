@@ -1,0 +1,267 @@
+﻿@model PagedList.IPagedList<TravelGuide.HOTEL>
+@using PagedList.Mvc;
+
+@{
+    ViewBag.Title = "ShowAllHotel";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    IEnumerable<CITY> cities = ViewData["Cities"] as IEnumerable<CITY>;
+}
+
+<section class="blog_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                @if (Model.Count != 0)
+                {
+                    foreach (var item in Model)
+                    {
+                        <div class="blog_left_sidebar">
+                            <article class="row blog_item">
+                                <div class="col-md-3">
+                                    <div class="blog_info text-right">
+                                        <ul class="blog_meta list_style">
+                                            <li>
+                                                @if (item.AVAILABLE == true)
+                                                {
+                                                    <a href="#"><div class="btn btn-success">Available</div></a>
+                                                }
+                                                else
+                                                {
+                                                    <a href="#">
+                                                        <div class="btn btn-danger">Unavailable</div>
+                                                    </a>
+                                                }
+                                            </li>
+                                            <li><a href="#">@Html.DisplayFor(modelItem => item.ADDRESS_HOTEL)<i class="lnr lnr-home"></i></a></li>
+                                            <li><a href="#">@Html.DisplayFor(modelItem => item.CITY.NAME_CITY)<i class="lnr lnr-map-marker"></i></a></li>
+                                            <li><a href="#">1.2M Views<i class="lnr lnr-eye"></i></a></li>
+                                            <li><a href="#">@Html.DisplayFor(modelItem => item.QUALITY_HOTEL)/ 10<i class="lnr lnr-star"></i></a></li>
+                                            <li><a href="#"><h5>$@Html.DisplayFor(modelItem => item.PRICE_HOTEL)<small>/night</small></h5></a></li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="col-md-9">
+                                    <div class="blog_post">
+                                        <img src="@Url.Content(item.IMAGE_HOTEL)" alt="">
+                                        <div class="blog_details">
+                                            <a href="@Url.Action("DetailHotel", "Home", new { id=item.ID_HOTEL} )">
+                                                <h2>@Html.DisplayFor(modelItem => item.NAME_HOTEL)</h2>
+                                            </a>
+                                            <p>@Html.DisplayFor(modelItem => item.INTRODUCE_HOTEL)</p>
+                                            <a href="@Url.Action("DetailHotel", "Home", new { id=item.ID_HOTEL } )" class="view_btn button_hover">View More</a>
+                                        </div>
+                                    </div>
+                                </div>
+                            </article>
+                        </div>
+                    }
+                }
+                else
+                {
+                    <div class="col-lg-12">
+                        <img src="~/Content/image/image-not-found-png-8.png" style="width:500px; padding-top: 30px" />
+                    </div>
+                    <div class="col-lg-12 text-center">
+                        <a href="@Url.Action("ShowAllHotel", "Home")" class="view_btn button_hover" style="margin-top: 30px">Search Again</a>
+                    </div>
+
+                }
+                <nav class="blog-pagination justify-content-center d-flex">
+                    @Html.PagedListPager(Model, page => Url.Action("ShowAllHotel", "Home", new { page, currentFilter = ViewBag.CurrentFilter,
+                   city = ViewBag.CurrentCity,
+                   isAvailable = ViewBag.CurrentAvailable,
+                   quality = ViewBag.CurrentQuality,
+                   minPrice = ViewBag.CurrentMinPrice,
+                   maxPrice = ViewBag.CurrentMaxPrice,
+                   isDiscount = ViewBag.CurrentDiscount
+               }))
+                </nav>
+            </div>
+            <div class="col-lg-4">
+                @using (Html.BeginForm("ShowAllHotel", "Home", FormMethod.Post))
+                {
+                    <div class="blog_right_sidebar">
+                        <aside class="single_sidebar_widget search_widget">
+                            <div class="input-group">
+                                @Html.TextBox("SearchString", ViewBag.CurrentFilter as string)
+                                <span class="input-group-btn">
+                                    <button class="btn btn-default submitButton" type="submit"><i class="lnr lnr-magnifier"></i></button>
+                                </span>
+
+                            </div>
+                            <div class="br"></div>
+                            <!-- /input-group -->
+                        </aside>
+                        <aside class="single_sidebar_widget author_widget">
+                            <a class="genric-btn info-border circle arrow advanceSearchButton" data-toggle="collapse" data-target="#advanceSearch">
+                                Advance Search<span class="iconButton lnr lnr-chevron-down"></span>
+                            </a>
+                            <div id="advanceSearch" class="collapse">
+                                <div class="container" style="margin-top: 30px">
+                                    <div class="mt-10" style="margin-bottom: 20px">
+                                        <div class="col-lg-12">
+                                            <div class="errorInput alert alert-danger"></div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-10" style="margin-bottom: 20px">
+                                        <div class="col-lg-12">
+                                            <div class="input-group-icon mt-10">
+                                                <div class="icon"><i class="fa fa-plane" aria-hidden="true"></i></div>
+                                                <div class="form-select" id="citySelect">
+                                                    <select name="city">
+                                                        <option value="">City</option>
+                                                        @foreach (CITY c in cities)
+                                                        {
+                                                            <option value="@c.ID_CITY">@c.NAME_CITY</option>
+                                                        }
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-10" style="margin-bottom: 20px">
+                                        <div class="col-lg-12">
+                                            <div class="switch-wrap d-flex justify-content-between" style="margin-top: 20px;">
+                                                <label> Available </label>
+                                                <div class="confirm-switch">
+                                                    <input type="checkbox" name="isAvailable" id="confirm-switch" value="true" checked disabled>
+                                                    <label for="confirm-switch"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-10" style="margin-bottom: 20px">
+                                        <div class="col-lg-12">
+                                            <div class="switch-wrap d-flex justify-content-between" style="margin-top: 20px;">
+                                                <label for="formControlRange">Quality</label>
+                                                <input type="range" min="1" max="10" value="" class="slider" name="quality" id="quality" style="margin-left: 10px;" disabled>
+                                                <input type="text" id="resultRange" value="1" style="width: 30px; margin-left: 10px;margin-right:10px" disabled />/10 <i class="lnr lnr-star"></i>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-10" style="margin-bottom: 20px">
+                                        <div class="col-lg-12">
+                                            <div class="switch-wrap d-flex justify-content-between" style="margin-top: 20px;">
+                                                <label>Price</label>
+                                                <input class="form-control" type="number" name="minPrice" id="minPrice" value="0" style="width:75px" disabled>
+                                                <label>To</label>
+                                                <input class="form-control" type="number" name="maxPrice" id="maxPrice" value="0" style="width:75px" disabled>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="mt-10">
+                                        <div class="col-lg-12">
+                                            <div class="switch-wrap d-flex justify-content-between" style="margin-top: 20px;">
+                                                <label>Discount</label>
+                                                <div class="primary-checkbox text-left">
+                                                    <input type="checkbox" name="isDiscount" id="primary-checkbox" value="true" checked disabled>
+                                                    <label for="primary-checkbox"></label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="button-group-area mt-40">
+                                        <button type="submit" class="submitAdvance genric-btn primary circle">Search</button>
+                                    </div>
+                                </div>
+                                </div>
+                        </aside>
+                    </div>  
+                }
+            </div>
+        </div>
+    </div>
+</section>
+
+<script>
+    $(document).ready(function () {
+        //$(".pagination-container").removeClass('pagination-container');
+        $('.pagination').find('li').addClass('page-item').find('a').addClass('page-link');
+        $('.blog-pagination').append($('.pagination'));
+        $('.errorInput').hide();
+
+        $('#SearchString').addClass('form-control').attr('placeholder', "Search");
+
+        $("#quality").on('change', function () {
+            $("#resultRange").val($("#quality").val());
+        });
+
+        $(".submitAdvance").hide();
+
+        $('.advanceSearchButton').click(function () {
+            if ($(this).find('.iconButton').hasClass('lnr-chevron-down')) {
+                $(".submitButton").hide();
+                $(".submitAdvance").show();
+                $(this).find('.iconButton').removeClass('lnr-chevron-down').addClass('lnr-chevron-up');
+                insideElement = $('form :input');
+                for (let i = 0; i < insideElement.length; i++) {
+                    let type = $(insideElement[i]).prop('type');
+                    let id = $(insideElement[i]).prop('id')
+                    if (type != 'submit' && id != 'resultRange') {
+                        if (type == 'select-one') {
+                            $(insideElement[i]).siblings('.nice-select').removeClass("disabled");
+                        } else {
+                            $(insideElement[i]).prop("disabled", false);
+                        }
+
+                    }
+                }
+            } else {
+                $(".submitButton").show();
+                $(".submitAdvance").hide();
+                $(this).find('.iconButton').addClass('lnr-chevron-down').removeClass('lnr-chevron-up');
+                insideElement = $('form :input');
+                for (let i = 0; i < insideElement.length; i++) {
+                    let type = $(insideElement[i]).prop('type');
+                    let id = $(insideElement[i]).prop('id')
+                    if (type != 'submit' && id != 'SearchString') {
+                        if (type == 'select-one') {
+                            $(insideElement[i]).siblings('.nice-select').addClass("disabled");
+                        } else {
+                            $(insideElement[i]).prop("disabled", true);
+                        }
+
+                    }
+                }
+            }
+
+        });
+        $('#maxPrice').change(function () {
+            let minPrice = $('#minPrice').val();
+            let maxPrice = $('#maxPrice').val();
+            if (minPrice > maxPrice) {
+                $('.errorInput').show();
+                $('.errorInput').text('Max Price must greater than Min Price!');
+            } else {
+                $('.errorInput').hide();
+            }
+        })
+        $('#minPrice').change(function () {
+            let minPrice = $(this).val();
+            let maxPrice = $('#maxPrice').val();
+            if (minPrice > maxPrice) {
+                $('.errorInput').show();
+                $('.errorInput').text('Max Price must greater than Min Price!');
+            } else {
+                $('.errorInput').hide();
+            }
+
+        });
+
+        $('#isDiscount').change(function () {
+            if (!$(this).is(':checked')) {
+                $(this).val(false);
+            } else {
+                $(this).val(true);
+            }
+        })
+
+        $('#isAvailable').change(function () {
+            if (!$(this).is(':checked')) {
+                $(this).val(false);
+            } else {
+                $(this).val(true);
+            }
+        })
+    });
+</script>

@@ -1,0 +1,45 @@
+﻿@model IEnumerable<TravelGuide.HOTEL>
+
+<section class="accomodation_area section_gap">
+    <div class="container">
+        <div class="section_title text-center">
+            <h2 class="title_color">Hotel Accomodation</h2>
+            <p>We all live in an age that belongs to the young at heart. Life that is becoming extremely fast, </p>
+        </div>
+        <div class="testimonial_slider owl-carousel">
+            @foreach (var item in Model)
+            {
+                <div class="media testimonial_item">
+                    <div class="accomodation_item text-center">
+                        <div class="hotel_img">
+                            <img src="@Url.Content(item.IMAGE_HOTEL)" style="width: 263px; height: 270px" alt="">
+                            <a href="@Url.Action("DetailHotel", "Home", new { id=item.ID_HOTEL })" class="btn theme_btn button_hover">Book Now</a>
+                        </div>
+                        <a href="@Url.Action("DetailHotel", "Home", new { id=item.ID_HOTEL })"><h4 class="sec_h4">@Html.DisplayFor(modelItem => item.NAME_HOTEL)</h4></a>
+                        <h5>$@Html.DisplayFor(modelItem => item.PRICE_HOTEL)<small>/night</small></h5>
+                    </div>
+                    <div class="media-body">
+                        <p>@Html.DisplayFor(modelItem => item.INTRODUCE_HOTEL)</p>
+                            @if (item.AVAILABLE == true)
+                            {
+                                <a><div class="btn btn-success">Available</div></a>
+                            }
+                            else
+                            {
+                                <a>
+                                    <div class="btn btn-danger">Unavailable</div>
+                                </a>
+                            }
+                        <div class="star">
+                            <p>
+                                Rate: @Html.DisplayFor(modelItem => item.QUALITY_HOTEL) <a><i class="fa fa-star"></i></a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            }
+        </div>
+    </div>
+</section>
+
+

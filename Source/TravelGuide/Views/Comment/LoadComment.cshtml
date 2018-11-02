@@ -1,0 +1,105 @@
+﻿@model IEnumerable<TravelGuide.COMMENT>
+@{
+    var numberComment = Model == null ? 0 : Model.Count();
+    
+
+}
+<div class="comments-area">
+    <h4>@numberComment Comments</h4>
+    @foreach (var item in Model)
+    {
+        if (item.FLAG_REPLY == false)
+        {
+            <div class="comment-list">
+                <div class="single-comment justify-content-between d-flex">
+                    <div class="user justify-content-between d-flex">
+                        <div class="thumb">
+                            <img src="~/Content/image/blog/c1.jpg" alt="">
+                        </div>
+                        <div class="desc">
+                            <h5><a>@Html.DisplayFor(modelItem => item.USERACCOUNT.NAME_USER)</a></h5>
+                            <p class="date">@Html.DisplayFor(modelItem => item.DT_COMMENT)</p>
+                            <p class="comment">
+                                @Html.DisplayFor(modelItem => item.CONTENT_COMMENT)
+                            </p>
+                        </div>
+                    </div>
+                    <div class="reply-btn">
+                        <a href="" class="btn-reply text-uppercase">reply</a>
+                    </div>
+                </div>
+            </div>
+
+        }
+        else
+        {
+            <div class="comment-list left-padding">
+                <div class="single-comment justify-content-between d-flex">
+                    <div class="user justify-content-between d-flex">
+                        <div class="thumb">
+                            <img src="~/Content/image/blog/c2.jpg" alt="">
+                        </div>
+                        <div class="desc">
+                            <h5><a href="#">@Html.DisplayFor(modelItem => item.USERACCOUNT.NAME_USER)</a></h5>
+                            <p class="date">@Html.DisplayFor(modelItem => item.DT_COMMENT)</p>
+                            <p class="comment">
+                                @Html.DisplayFor(modelItem => item.CONTENT_COMMENT)
+                            </p>
+                        </div>
+                    </div>
+                    <div class="reply-btn">
+                        <a href="" class="btn-reply text-uppercase">reply</a>
+                    </div>
+                </div>
+            </div>
+        }
+    }
+</div>
+
+<div class="comment-form">
+    <h4>Leave a Reply</h4>
+        @{ 
+            var userId = Session["USER_ID"];
+            var hotelId = Model.FirstOrDefault() == null ? null : Model.FirstOrDefault().ID_HOTEL;
+            var restaurantId = Model.FirstOrDefault() == null ? null : Model.FirstOrDefault().ID_RESTAURANT;
+            var resortId = Model.FirstOrDefault() == null ? null : Model.FirstOrDefault().ID_RESORT;
+            var travelId = Model.FirstOrDefault() == null ? null : Model.FirstOrDefault().ID_TRAVEL;
+            var touristId = Model.FirstOrDefault() == null ? null : Model.FirstOrDefault().ID_TOURISTSPOT;
+        }
+    <div class="form-group">
+        <textarea class="form-control mb-10" rows="5" name="contentComment" placeholder="Messege" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'" required=""></textarea>
+    </div>
+        <button type="submit" class="primary-btn button_hover submitButton">Post Comment</button>
+</div>
+
+<script>
+    $(document).ready(function () {
+        let dataValue = {
+            userId: '@userId',
+            hotelId: '@hotelId',
+            restaurantId: '@restaurantId',
+            resortId: '@resortId',
+            travelId: '@travelId',
+            touristId: '@touristId'
+        };
+        $('.submitButton').click(function () {
+
+            $.ajax({
+                type: "POST",
+                url: "@Url.Action("AddComment", "Comment")",
+                data: dataValue,
+                contentType: 'text',
+                dataType: 'text',
+                error: function (XMLHttpRequest, textStatus, errorThrown) {
+                    alert("Request: " + XMLHttpRequest.toString() + "\n\nStatus: " + textStatus + "\n\nError: " + errorThrown);
+                },
+                success: function (result) {
+                    if (result == 1) {
+                        location.reload();
+                    }
+                }
+            });
+
+        });
+    });
+</script>

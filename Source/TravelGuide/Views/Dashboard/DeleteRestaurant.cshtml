@@ -1,0 +1,97 @@
+﻿@model TravelGuide.RESTAURANT
+
+@{
+    ViewBag.Title = "DeleteRestaurant";
+    Layout = "~/Views/Shared/_LayoutAdmin.cshtml";
+}
+
+<h2>DeleteRestaurant</h2>
+
+<h3>Are you sure you want to delete this?</h3>
+<div>
+    <h4>RESTAURANT</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.NAME_RESTAURANT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.NAME_RESTAURANT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ID_CITY)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ID_CITY)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ADDRESS_RESTAURANT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ADDRESS_RESTAURANT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.TEL_RESTAURANT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.TEL_RESTAURANT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.QUALITY_RESTAURANT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.QUALITY_RESTAURANT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.AVAILABLE)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.AVAILABLE)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.DES_RESTAURANT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.DES_RESTAURANT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.INTRODUCE_RESTAURANT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.INTRODUCE_RESTAURANT)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.IMAGE_RESTAURANT)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.IMAGE_RESTAURANT)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Delete" class="btn btn-default" /> |
+            @Html.ActionLink("Back to List", "Restaurant")
+        </div>
+    }
+</div>
